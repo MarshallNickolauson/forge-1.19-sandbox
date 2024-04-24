@@ -10,5 +10,8 @@
   "block.tutorialmod.jumpy_block": "Jumpy Block",
   "block.tutorialmod.zircon_lamp": "Zircon Lamp",
 
-  "itemGroup.tutorialtab": "Tutorial Tab"
+  "itemGroup.tutorialtab": "Tutorial Tab",
+
+  "key.category.tutorialmod.tutorial": "Tutorial Mod",
+  "key.tutorialmod.drink_water": "Drink Water"
 }
