@@ -1,0 +1,13 @@
+// 1.19	2024-04-24T06:22:38.3803866	Block States: tutorialmod
+8618ec9bfb3f9d9e4d1d210ead3c81d4d429d993 assets/tutorialmod/blockstates/deepslate_zircon_ore.json
+204943b6bfad55c42370361c4c3d702a2aaaeabc assets/tutorialmod/blockstates/jumpy_block.json
+de05684d16f05195c236a278706deaf838c8eb43 assets/tutorialmod/blockstates/zircon_block.json
+7e05223d9bd16ddc94eac5d43ea58c80f10d9d87 assets/tutorialmod/blockstates/zircon_ore.json
+3ffc5586e7e94361517edaa85ebdfc6813c25b7a assets/tutorialmod/models/block/deepslate_zircon_ore.json
+f1cfc2b37bdbe3c2f227da887e2d64b3276a4d48 assets/tutorialmod/models/block/jumpy_block.json
+ca2e04d02027bbe7aa4aabd3a7030c959dd57dcc assets/tutorialmod/models/block/zircon_block.json
+92ecb0e10f87a866cf536e4c8d8a2f549f74c886 assets/tutorialmod/models/block/zircon_ore.json
+c0de4a846c8f8edb2c4c071fba45fd25c713126d assets/tutorialmod/models/item/deepslate_zircon_ore.json
+61f91009413acbcfcbf1144de0adefa6d743ae3c assets/tutorialmod/models/item/jumpy_block.json
+7387e07b6d946f0d09789515a8175209e95084d8 assets/tutorialmod/models/item/zircon_block.json
+3aae61d295caa065ac4b50568e5413b08ec50782 assets/tutorialmod/models/item/zircon_ore.json

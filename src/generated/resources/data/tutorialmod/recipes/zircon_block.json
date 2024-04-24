@@ -1,15 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "###",
-    "###",
-    "###"
-  ],
   "key": {
-    "#": {
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "Z": {
       "item": "tutorialmod:zircon"
     }
   },
+  "pattern": [
+    "ZZZ",
+    "ZDZ",
+    "ZZZ"
+  ],
   "result": {
     "item": "tutorialmod:zircon_block"
   }
