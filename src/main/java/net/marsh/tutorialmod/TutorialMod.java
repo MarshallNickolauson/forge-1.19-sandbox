@@ -2,9 +2,13 @@ package net.marsh.tutorialmod;
 
 import com.mojang.logging.LogUtils;
 import net.marsh.tutorialmod.block.ModBlocks;
+import net.marsh.tutorialmod.fluid.ModFluidTypes;
+import net.marsh.tutorialmod.fluid.ModFluids;
 import net.marsh.tutorialmod.item.ModItems;
 import net.marsh.tutorialmod.world.feature.ModConfiguredFeatures;
 import net.marsh.tutorialmod.world.feature.ModPlacedFeatures;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -28,6 +32,9 @@ public class TutorialMod {
         ModConfiguredFeatures.register(modEventBus);
         ModPlacedFeatures.register(modEventBus);
 
+        ModFluids.register(modEventBus);
+        ModFluidTypes.register(modEventBus);
+
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
@@ -41,7 +48,8 @@ public class TutorialMod {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-
+            ItemBlockRenderTypes.setRenderLayer(ModFluids.SOURCE_SOAP_WATER.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(ModFluids.FLOWING_SOAP_WATER.get(), RenderType.translucent());
         }
     }
 }

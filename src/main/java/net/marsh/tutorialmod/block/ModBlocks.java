@@ -3,6 +3,8 @@ package net.marsh.tutorialmod.block;
 import net.marsh.tutorialmod.TutorialMod;
 import net.marsh.tutorialmod.block.custom.JumpyBlock;
 import net.marsh.tutorialmod.block.custom.ZirconLampBlock;
+import net.marsh.tutorialmod.fluid.ModFluidTypes;
+import net.marsh.tutorialmod.fluid.ModFluids;
 import net.marsh.tutorialmod.item.ModCreativeModeTab;
 import net.marsh.tutorialmod.item.ModItems;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -10,7 +12,9 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DropExperienceBlock;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -45,6 +49,9 @@ public class ModBlocks {
             () -> new ZirconLampBlock(BlockBehaviour.Properties.of(Material.STONE)
                     .strength(6f).requiresCorrectToolForDrops()
                     .lightLevel(state -> state.getValue(ZirconLampBlock.LIT) ? 15 : 0)), ModCreativeModeTab.TUTORIAL_TAB);
+
+    public static final RegistryObject<LiquidBlock> SOAP_WATER_BLOCK = BLOCKS.register("soap_water_block",
+            () -> new LiquidBlock(ModFluids.SOURCE_SOAP_WATER, BlockBehaviour.Properties.copy(Blocks.WATER)));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block, CreativeModeTab tab) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
