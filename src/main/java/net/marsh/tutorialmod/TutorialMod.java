@@ -3,6 +3,8 @@ package net.marsh.tutorialmod;
 import com.mojang.logging.LogUtils;
 import net.marsh.tutorialmod.block.ModBlocks;
 import net.marsh.tutorialmod.item.ModItems;
+import net.marsh.tutorialmod.world.feature.ModConfiguredFeatures;
+import net.marsh.tutorialmod.world.feature.ModPlacedFeatures;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -24,6 +26,9 @@ public class TutorialMod {
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+
+        ModConfiguredFeatures.register(modEventBus);
+        ModPlacedFeatures.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.register(this);
