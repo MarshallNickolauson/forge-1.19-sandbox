@@ -36,6 +36,11 @@ public class GemInfusingStationRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
+    public NonNullList<Ingredient> getIngredients() {
+        return recipeItems;
+    }
+
+    @Override
     public ItemStack assemble(SimpleContainer simpleContainer) {
         return output;
     }
