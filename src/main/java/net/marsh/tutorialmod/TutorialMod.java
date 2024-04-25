@@ -6,6 +6,7 @@ import net.marsh.tutorialmod.block.entity.ModBlockEntities;
 import net.marsh.tutorialmod.fluid.ModFluidTypes;
 import net.marsh.tutorialmod.fluid.ModFluids;
 import net.marsh.tutorialmod.item.ModItems;
+import net.marsh.tutorialmod.recipe.ModRecipes;
 import net.marsh.tutorialmod.screen.GemInfusingStationScreen;
 import net.marsh.tutorialmod.screen.ModMenuTypes;
 import net.marsh.tutorialmod.world.feature.ModConfiguredFeatures;
@@ -32,16 +33,13 @@ public class TutorialMod {
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
-
         ModConfiguredFeatures.register(modEventBus);
         ModPlacedFeatures.register(modEventBus);
-
         ModFluids.register(modEventBus);
         ModFluidTypes.register(modEventBus);
-
         ModBlockEntities.register(modEventBus);
-
         ModMenuTypes.register(modEventBus);
+        ModRecipes.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
