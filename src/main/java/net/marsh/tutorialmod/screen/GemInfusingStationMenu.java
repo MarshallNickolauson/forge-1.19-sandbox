@@ -2,6 +2,7 @@ package net.marsh.tutorialmod.screen;
 
 import net.marsh.tutorialmod.block.ModBlocks;
 import net.marsh.tutorialmod.block.entity.GemInfusingStationBlockEntity;
+import net.minecraft.commands.arguments.coordinates.Coordinates;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -42,6 +43,10 @@ public class GemInfusingStationMenu extends AbstractContainerMenu {
 
     public boolean isCrafting() {
         return data.get(0) > 0;
+    }
+
+    public GemInfusingStationBlockEntity getBlockEntity() {
+        return this.blockEntity;
     }
 
     public int getScaledProgress() {

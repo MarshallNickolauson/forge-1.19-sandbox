@@ -1,7 +1,11 @@
 package net.marsh.tutorialmod.block.entity;
 
+import net.marsh.tutorialmod.item.ModItems;
+import net.marsh.tutorialmod.networking.ModMessages;
+import net.marsh.tutorialmod.networking.packet.EnergySyncS2CPacket;
 import net.marsh.tutorialmod.recipe.GemInfusingStationRecipe;
 import net.marsh.tutorialmod.screen.GemInfusingStationMenu;
+import net.marsh.tutorialmod.util.ModEnergyStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -20,6 +24,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
@@ -35,7 +40,18 @@ public class GemInfusingStationBlockEntity extends BlockEntity implements MenuPr
         }
     };
 
+    private final ModEnergyStorage ENERGY_STORAGE = new ModEnergyStorage(60000, 256) {
+        @Override
+        public void onEnergyChanged() {
+            setChanged();
+            ModMessages.sendToClients(new EnergySyncS2CPacket(this.energy, getBlockPos()));
+        }
+    };
+    private static final int ENERGY_REQUIRED = 32;
+
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
+
+    private LazyOptional<IEnergyStorage> lazyEnergyHandler = LazyOptional.empty();
 
     protected final ContainerData data;
     private int progress = 0;
@@ -79,8 +95,20 @@ public class GemInfusingStationBlockEntity extends BlockEntity implements MenuPr
         return new GemInfusingStationMenu(id, inventory, this, this.data);
     }
 
+    public IEnergyStorage getEnergyStorage() {
+        return ENERGY_STORAGE;
+    }
+
+    public void setEnergyLevel(int energy) {
+        this.ENERGY_STORAGE.setEnergy(energy);
+    }
+
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
+        if(cap == ForgeCapabilities.ENERGY) {
+            return lazyEnergyHandler.cast();
+        }
+
         if(cap == ForgeCapabilities.ITEM_HANDLER) {
             return lazyItemHandler.cast();
         }
@@ -92,18 +120,21 @@ public class GemInfusingStationBlockEntity extends BlockEntity implements MenuPr
     public void onLoad() {
         super.onLoad();
         lazyItemHandler = LazyOptional.of(() -> itemHandler);
+        lazyEnergyHandler = LazyOptional.of(() -> ENERGY_STORAGE);
     }
 
     @Override
     public void invalidateCaps() {
         super.invalidateCaps();
         lazyItemHandler.invalidate();
+        lazyEnergyHandler.invalidate();
     }
 
     @Override
     protected void saveAdditional(CompoundTag nbt) {
         nbt.put("inventory", itemHandler.serializeNBT());
         nbt.putInt("gem_infusing_station_progress", this.progress);
+        nbt.putInt("gem_infusing_station.energy", ENERGY_STORAGE.getEnergyStored());
         super.saveAdditional(nbt);
     }
 
@@ -112,6 +143,7 @@ public class GemInfusingStationBlockEntity extends BlockEntity implements MenuPr
         super.load(nbt);
         itemHandler.deserializeNBT(nbt.getCompound("inventory"));
         progress = nbt.getInt("gem_infusing_station_progress");
+        ENERGY_STORAGE.setEnergy(nbt.getInt("gem_infusing_station.energy"));
     }
 
     public void drops() {
@@ -128,8 +160,13 @@ public class GemInfusingStationBlockEntity extends BlockEntity implements MenuPr
             return;
         }
 
+        if(hasGemInFirstSlot(entity)) {
+            entity.ENERGY_STORAGE.receiveEnergy(64, false);
+        }
+
         if(hasRecipe(entity)) {
             entity.progress++;
+            extractEnergy(entity);
             setChanged(level, pos, state);
 
             if(entity.progress >= entity.maxProgress) {
@@ -139,6 +176,19 @@ public class GemInfusingStationBlockEntity extends BlockEntity implements MenuPr
             entity.resetProgress();
             setChanged(level, pos, state);
         }
+
+        if(entity.ENERGY_STORAGE.getEnergyStored() == 0) {
+            entity.resetProgress();
+            setChanged(level, pos, state);
+        }
+    }
+
+    private static void extractEnergy(GemInfusingStationBlockEntity entity) {
+        entity.ENERGY_STORAGE.extractEnergy(ENERGY_REQUIRED, false);
+    }
+
+    private static boolean hasGemInFirstSlot(GemInfusingStationBlockEntity entity) {
+        return entity.itemHandler.getStackInSlot(0).getItem() == ModItems.ZIRCON.get();
     }
 
     private void resetProgress() {

@@ -6,6 +6,7 @@ import net.marsh.tutorialmod.block.entity.ModBlockEntities;
 import net.marsh.tutorialmod.fluid.ModFluidTypes;
 import net.marsh.tutorialmod.fluid.ModFluids;
 import net.marsh.tutorialmod.item.ModItems;
+import net.marsh.tutorialmod.networking.ModMessages;
 import net.marsh.tutorialmod.recipe.ModRecipes;
 import net.marsh.tutorialmod.screen.GemInfusingStationScreen;
 import net.marsh.tutorialmod.screen.ModMenuTypes;
@@ -47,7 +48,7 @@ public class TutorialMod {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-
+        ModMessages.register();
     }
 
     @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
